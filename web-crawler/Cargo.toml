@@ -4,3 +4,13 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+RobotS = "0.3.0"
+anyhow = "1.0.98"
+clap = "4.5.38"
+crawler = "0.1.0"
+error = "0.1.9"
+fetcher = "0.13.1"
+keywords = "0.1.0"
+metrics = "0.24.2"
+storage = "0.5.0"
+url-utils = "0.2.0"
