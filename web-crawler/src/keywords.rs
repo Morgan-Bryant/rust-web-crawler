@@ -16,5 +16,5 @@ pub fn extract(text: &str) -> Vec<String> {
     }
     let mut keywords: Vec<_> = freq.into_iter().collect();
     keywords.sort_by(|a, b| b.1.cmp(&a.1));
-    keywords.into_iter().take(5).map(|(w, _)| w).collect()
+    keywords.into_iter().take(20).map(|(w, _)| w).collect()
 }
