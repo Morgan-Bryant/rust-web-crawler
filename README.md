@@ -64,7 +64,20 @@ This project is a homework to demonstrate skills in:
 It is a practical example of building a lightweight, filesystem-based web crawler and search engine.
 
 ### Usage:
-To run:
+```bash
+Filesystem-based crawler & search tool
+
+Usage: fs_search_crawler [OPTIONS] --seed <SEED>
+
+Options:
+      --seed <SEED>              Seed URL to start crawling
+      --output-dir <OUTPUT_DIR>  Directory to store pages and index [default: ./data]
+      --max-pages <MAX_PAGES>    Maximum pages to crawl [default: 1000]
+      --query <QUERY>            Query term (skip crawl if provided)
+  -h, --help                     Print help
+  -V, --version                  Print version
+```
+To Crawl:
 
 ```bash
 ./target/release/fs_search_crawler \
@@ -73,7 +86,7 @@ To run:
   --max-pages 10
   ```
 
-To Query:
+To Query (after crawling):
 
 ```bash
 ./target/release/fs_search_crawler \
