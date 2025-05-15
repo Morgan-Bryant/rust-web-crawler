@@ -1,5 +1,5 @@
-# web-crawler
-Collecting workspace informationFiltering to most relevant informationThis project is a **web crawler and search tool** implemented in Rust. It is designed to crawl web pages starting from a seed URL, extract and store their content, and build an index for search functionality. Here's a breakdown of its components and functionality:
+# rust-web-crawler
+This project is a **web crawler and search tool** implemented in Rust. It is designed to crawl web pages starting from a seed URL, extract and store their content, and build an index for search functionality. Here's a breakdown of its components and functionality:
 
 ### Key Features:
 1. **Web Crawling**:
