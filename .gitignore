@@ -1,2 +1,3 @@
 # Ignore the crawled dir
 data/
+src/indexer.rs

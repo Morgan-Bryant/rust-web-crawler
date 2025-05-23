@@ -112,8 +112,13 @@ Storage Output:
 
 
 ### Images:
+Beginning of the crawl:
 ![alt text](https://github.com/Morgan-Bryant/rust-web-crawler/blob/main/25k_Search.png)
+Results of the crawl:
+![alt text](https://github.com/Morgan-Bryant/rust-web-crawler/blob/main/Index_CSV.png)
+Query Call:
 ![alt text](https://github.com/Morgan-Bryant/rust-web-crawler/blob/main/Mario_Test_Query.png)
+Query Results::
 ![alt text](https://github.com/Morgan-Bryant/rust-web-crawler/blob/main/ResultCSV_1.png)
 ![alt text](https://github.com/Morgan-Bryant/rust-web-crawler/blob/main/ResultCSV_2.png)
 
