@@ -11,11 +11,11 @@ This project is both a webcrawler and search tool in one. Since it is written in
 ### Analysis:
 #### Pros:
 - Host side is fast and effiecent in terms of CPU usage.
-- Uses `tokio` async package to crawl multiple web pages at once.
+- Uses `tokio` async package to crawl multiple web pages simultaneously.
 - Uses `serde` to serialize and deserialize data to and from CSV files.
 - Fairly lightweight storage and memory foot print (depending on # of crawled URLS).
 - Has an indexer/search function if trying to find certain keywords in the crawled data.
-- Has a `crawled_data.csv` file that contains the crawled data in a CSV format to imporve utility. Such as viewing all data at once or importing into a spreadsheet software like MS Excel.
+- Has a `crawled_data.csv` file that contains the crawled data in a CSV format to improve utility. Such as viewing all data at once or importing into a spreadsheet software like MS Excel.
 - The program is fairly modular and can be easily modified for a specific use case such as filtering out/in URLS or only capturing certain keywords.
 
 #### Cons:
@@ -27,11 +27,13 @@ This project is both a webcrawler and search tool in one. Since it is written in
 - No GUI, as it is Command Line Interface (CLI) use only at this time.
 - This is a student project, and may encounter other errors after more strenous use/testing.
 
+#### Lessons Learned:
+This project is the first one of this size that I have attempted in `Rust`. Albeit, I do think I did a fairly good job. This project has taught me how to use the `tokio` and `serde` packages more effectively. Previously, I have used them for my personal website & other projects. 
+
 
 ### Project Structure:
 - **Source Code**:
   - `src/crawler.rs`: Implements the crawling logic.
-  - `src/indexer.rs`: Handles indexing of crawled data.
   - `src/query.rs`: Provides search functionality.
   - `src/storage.rs`: Manages storage of pages and metadata.
   - `src/parser.rs`: Extracts text and links from HTML.
@@ -68,7 +70,6 @@ Options:
   --output-dir "./data" \
   --max-pages 10
   ```
-
 #### To Query (after crawling):
 ```bash
 ./target/release/fs_search_crawler \
@@ -101,16 +102,18 @@ Storage Output:
 - `data/pages`: 36.9 MB
 - TOTAl: 49.6 MB
 
-Approximate time to crawl a page based on the above test run is about
-- 1/24 days
-- 1 hour
-- 52 urls per minute
-- 0.86 urls per second.
+#### Predictions(*)
+| URL COUNT | TIME (Days) | TIME (Hours) | TIME (MINUTES) | TIME (SECONDS) | SIZE (GB) | KEYWORDS       |
+|-----------|--------------|-------------|----------------|----------------|-----------|----------------|
+| 10,000*   | 0            | 0.25        | 15.00          | 900            | .20       | 200,000        |
+| 25,000    | 1/24         | 1           | 60             | 3,600          | 0.49      | 500,000        |
+| 10 mill*  | 16.7         | 400         | 24,000         | 1,440,000      | 29.84     | 200,000,000    | 
+| 1 billion*| 1666.7       | 10,000      | 600,000        | 11,538,461     | 1.937 TB  | 20,000,000,000 |
 
-#### Predictions
-| URL COUNT | TIME (Days) | TIME (Hours) | TIME (MINUTES) | TIME (SECONDS) | SIZE (GB) |
-|-----------|--------------|-------------|----------------|----------------|-----------|
-| 10,000*   |              | 0.25        | 15.00          | 900            | .20       |
-| 25,000    | 1/24         | 1           | 60             | 3,600          | 0.49      |
-| 10 mill*  | 128.2        | 3205.13     | 192307.69      | 11538461.54    | 29.84     |
-| 1 billion*| 12820.51     | 320205.13   | 192307.69      | NaN            | 1.937 TB  |
+
+### Images:
+![alt text](http://https://github.com/Morgan-Bryant/rust-web-crawler/25k_Search.png)
+![alt text](http://https://github.com/Morgan-Bryant/rust-web-crawler/MarioTestQuery.png)
+![alt text](http://https://github.com/Morgan-Bryant/rust-web-crawler/ResultCSV_1.png)
+![alt text](http://https://github.com/Morgan-Bryant/rust-web-crawler/ResultCSV_2.png)
+
