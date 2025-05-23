@@ -1,45 +1,36 @@
 # rust-web-crawler
-This project is a **web crawler and search tool** implemented in Rust. It is designed to crawl web pages starting from a seed URL, extract and store their content, and build an index for search functionality. Here's a breakdown of its components and functionality:
+Programmer Information:
+- **Name**: Morgan Bryant
+- **GT ID**: 903680910
+- **Email**: mbryant49@gatech.edu
+- **Development Machine** MacBook Pro M4, 16gb RAM
 
 ### Key Features:
-1. **Web Crawling**:
-   - The `run_crawl` function in `crawler.rs` is the main entry point for crawling.
-   - It uses the `reqwest` library to fetch web pages and follows links extracted from the HTML content.
-   - A **frontier** (queue) is maintained to track URLs to visit, and a **visited set** ensures no URL is crawled more than once.
-   - The crawler respects the `robots.txt` rules using the `robots` module.
+This project is both a webcrawler and search tool in one. Since it is written in `Rust`, it is as fast as possible on the raw computing side. Additionally, we use the `tokio` async package to crawl multiple web pages at once. It is intended to be ran as a CLI program only in its current state, but could have a UI implemented in the future. The main time cost is from the `politeness` wait call as to not overwhelm the servers. This call waits one second per url crawled.
 
-2. **Content Storage**:
-   - The `storage` module is used to save the HTML content of pages and their metadata (e.g., keywords) to the specified output directory.
+### Analysis:
+#### Pros:
+- Host side is fast and effiecent in terms of CPU usage.
+- Uses `tokio` async package to crawl multiple web pages at once.
+- Uses `serde` to serialize and deserialize data to and from CSV files.
+- Fairly lightweight storage and memory foot print (depending on # of crawled URLS).
+- Has an indexer/search function if trying to find certain keywords in the crawled data.
+- Has a `crawled_data.csv` file that contains the crawled data in a CSV format to imporve utility. Such as viewing all data at once or importing into a spreadsheet software like MS Excel.
+- The program is fairly modular and can be easily modified for a specific use case such as filtering out/in URLS or only capturing certain keywords.
 
-3. **Text and Metadata Extraction**:
-   - The `parser` module extracts text and links from HTML pages.
-   - The `keywords` module identifies keywords from the extracted text for indexing.
+#### Cons:
+- Requires an understanding of `Rust` and `Cargo` to modify and tailor to a specific use case
+- The `politeness` wait call is currently causing an increase in runtime.
+   - This can be removed if the user is willing to risk being blocked by the server or is given explicit permission to crawl
+- Certain URLS may cause errors and break the crawler.
+- Certain websites may be skipped if they have a `robots.txt` file that disallows crawling or if a `robots.txt` file is not found.
+- No GUI, as it is Command Line Interface (CLI) use only at this time.
+- This is a student project, and may encounter other errors after more strenous use/testing.
 
-4. **Politeness**:
-   - A delay (`tokio::time::sleep`) is added between requests to avoid overwhelming servers.
-
-5. **Search Index**:
-   - The project includes an `indexer` module (referenced in `main.rs`) to build a search index from the crawled data.
-   - A `query` module allows users to search the indexed data.
-
-6. **Command-Line Interface**:
-   - The project uses the `clap` library to define CLI arguments (e.g., seed URL, output directory, max pages to crawl, and query terms).
-
-### Workflow:
-1. **Crawling**:
-   - Start from a seed URL.
-   - Fetch the page, extract links, and add them to the frontier.
-   - Store the page content and metadata.
-
-2. **Indexing**:
-   - After crawling, build an index of the crawled pages for efficient search.
-
-3. **Searching**:
-   - If a query term is provided, skip crawling and directly search the index.
 
 ### Project Structure:
 - **Source Code**:
-  - crawler.rs: Implements the crawling logic.
+  - `src/crawler.rs`: Implements the crawling logic.
   - `src/indexer.rs`: Handles indexing of crawled data.
   - `src/query.rs`: Provides search functionality.
   - `src/storage.rs`: Manages storage of pages and metadata.
@@ -47,21 +38,14 @@ This project is a **web crawler and search tool** implemented in Rust. It is des
   - `src/url_utils.rs`: Normalizes URLs.
   - `src/robots.rs`: Handles `robots.txt` rules.
   - `src/keywords.rs`: Extracts keywords from text.
-
-- **Data Storage**:
-  - Crawled pages and metadata are stored in the `data/` directory.
-
-- **Build Artifacts**:
-  - Compiled binaries and intermediate files are stored in the `target/` directory.
-
-### Purpose:
-This project is a homework to demonstrate skills in:
-- Asynchronous programming with Rust (`tokio`).
-- Web crawling and parsing.
-- Data storage and indexing.
-- Command-line application development.
-
-It is a practical example of building a lightweight, filesystem-based web crawler and search engine.
+  - `data/`: Main directory for storing crawled data.
+  - `data/meta`: Contains the URLS & Keywords for crawled data.
+  - `data/pages`: Contains `.gz` compressed version of the HTML pages
+  - `data/crawled_data.csv`: Contains the crawled data in CSV format.
+  - `target/release`: Contains the compiled **RELEASE** Binary
+  - `target/debug`: Contains the compiled **DEBUG** Binary
+  - `Cargo.toml`: Contains all cargo packages & other information used to compile the program.
+  - `Cargo.lock`: Contains the lock file for the cargo packages used in the project to ensure that the same versions are used across compilations.
 
 ### Usage:
 ```bash
@@ -77,8 +61,7 @@ Options:
   -h, --help                     Print help
   -V, --version                  Print version
 ```
-To Crawl:
-
+#### To Crawl:
 ```bash
 ./target/release/fs_search_crawler \
   --seed "https://example.com" \
@@ -86,11 +69,54 @@ To Crawl:
   --max-pages 10
   ```
 
-To Query (after crawling):
-
+#### To Query (after crawling):
 ```bash
 ./target/release/fs_search_crawler \
-  --seed "https://example.com" \
+  --seed "" \
   --output-dir "./data" \
   --query "example"
   ```
+#### To Query & Export to CSV:
+```bash
+./target/release/fs_search_crawler \
+  --seed "" \
+  --output-dir "./data" \
+  --query "example" > example.csv
+```
+
+### Benchmarks:
+```bash
+./target/release/fs_search_crawler \
+  --seed "https://sandbox.oxylabs.io/h" \
+  --output-dir "./data" \
+  --max-pages 25000
+  ```
+Took about 1 hour to crawl 25,000 pages. In my output CSV it has 3099 rows in the format:
+```csv
+url,doc_id,keywords
+```
+Storage Output:
+- `crawled_data.csv`: 737 KB
+- `data/meta`: 12.7 MB
+- `data/pages`: 36.9 MB
+- TOTAl: 49.6 MB
+
+Approximate time to crawl a page based on the above test run is about
+- 1/24 days
+- 1 hour
+- 52 urls per minute
+- 0.86 urls per second.
+
+#### We predict that for 10 million urls:
+- 128.20 days
+- 3205.13 hours
+- 192307.69 minutes
+- 11538461.54 seconds
+- Total Size: 29.84 GB
+
+#### We predict that for 1 billion urls:
+- 12820.51 days
+- 320205.13 hours
+- 192307.69 minutes
+- 11538461.54 seconds
+- Total Size: 1.937 TB
