@@ -1,7 +1,6 @@
 // Cargo Packages
 use anyhow::Result;
 use csv::Reader;
-use std::fs::File;
 
 pub fn run_query(dir: &str, term: &str) -> Result<()> {
     let path = format!("{}/crawled_data.csv", dir);

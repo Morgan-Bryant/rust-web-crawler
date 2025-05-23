@@ -3,7 +3,6 @@ use clap::Parser;
 use anyhow::Result;
 // Crates
 mod crawler;
-mod indexer;
 mod query;
 mod storage;
 mod parser;
