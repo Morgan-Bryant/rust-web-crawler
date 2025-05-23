@@ -107,22 +107,10 @@ Approximate time to crawl a page based on the above test run is about
 - 52 urls per minute
 - 0.86 urls per second.
 
-#### We predict that for 10 million urls:
-- 128.20 days
-- 3205.13 hours
-- 192307.69 minutes
-- 11538461.54 seconds
-- Total Size: 29.84 GB
-
-#### We predict that for 1 billion urls:
-- 12820.51 days
-- 320205.13 hours
-- 192307.69 minutes
-- Total Size: 1.937 TB
-
+#### Predictions
 | URL COUNT | TIME (Days) | TIME (Hours) | TIME (MINUTES) | TIME (SECONDS) | SIZE (GB) |
 |-----------|--------------|-------------|----------------|----------------|-----------|
-| 10,000    | 1/24         | 1           | 60             | 3,600          | 0.49      |
-| 10 mill   | 128.2        | 3205.13     | 192307.69      | 11538461.54    | 29.84     |
-| 1 billion | 12820.51     | 320205.13   | 192307.69      | NaN            | 1.937 TB  |
-|-----------|--------------|-------------|----------------|----------------|-----------|
+| 10,000*   |              | 0.25        | 15.00          | 900            | .20       |
+| 25,000    | 1/24         | 1           | 60             | 3,600          | 0.49      |
+| 10 mill*  | 128.2        | 3205.13     | 192307.69      | 11538461.54    | 29.84     |
+| 1 billion*| 12820.51     | 320205.13   | 192307.69      | NaN            | 1.937 TB  |
